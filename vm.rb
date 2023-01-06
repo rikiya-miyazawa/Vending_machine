@@ -1,136 +1,73 @@
-#お客さんクラス お金を入れる処理とジュースを選ぶ処理
-class Customer
-  MONEY = [10, 50, 100, 500, 1000].freeze
-  # @slot_money = 0
-  def slot_money
-    puts "#{MONEY}円が使えます"
-    puts "お金を投入してください"
-    @slot_money = gets
-    
-    return false unless MONEY.include?(@slot_money)
-    
-    @slot_money += money
-
-  end
-  
-
-  #test.rb:14:in `<class:Customer>': undefined method `lot_money' for Customer:Class (NoMethodError)
-	#from test.rb:2:in `<main>'
-
-
-  #OK
-  def choice
-    puts"選んでください"
-    puts "0:レッドブル, 1:コーラ, 2:水,"
-    @choice_juice = gets.chomp
-      while true do
-        if @choice_juice == "0" || @choice_juice == "1" ||  @choice_juice == "2"
-          return @choice_juice.to_i
-        else
-          puts "0~2を入力してください"
-          puts "0:レッドブル, 1:コーラ, 2:水,"
-          @choice_juice = gets.chomp
-        end
-      end
-  end
-
-end
-
-
-class Stock
-  def initialize
-    @drink = [{name:"redbull", price:200, stock:5},
-      {name:"cola", price:120, stock:5},
-      {name:"water", price:100, stock:5}]
-  end
-  
-  def buy
-    if @choice_juice == 0
-      @drink[0][:stock] = @drink[0][:stock] - 1
-    elsif @choice_juice == 1
-      @drink[1][:stock] = @drink[1][:stock] - 1
-    elsif @choice_juice == 2
-      @drink[2][:stock] = @drink[2][:stock] - 1
-    end
-  end
-
-  
-end
-
-class Money
-  def initialize
-    @sales = 0
-  end
-
-  def sales 
-    if @choice_juice == 0
-      @sales += 200
-    elsif @choice_juice == 1
-      @sales += 120
-    elsif @choice_juice == 2
-      @sales += 100
-    end
-  end
-
-  def return_money
-    if @choice_juice == 0
-      @slot_money -= 200
-    elsif @choice_juice == 1
-      @slot_money -= 120
-    elsif @choice_juice == 2
-      @slot_money -= 100
-    end
-  end
-end
-
-
-
-#最終形態
 class VendingMachine
-  def self.start
-    customer = Customer.new #slot_moneyの中身  @choice_juiceの中身
-    stock = Stock.new
-    money = Money.new
+  # ステップ０　お金の投入と払い戻しの例コード
+  # ステップ１　扱えないお金の例コード
+  # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
+  MONEY = [10, 50, 100, 500, 1000].freeze
+  # （自動販売機に投入された金額をインスタンス変数の @slot_money に代入する）
+  def initialize
+    # 最初の自動販売機に入っている金額は0円
+    @slot_money = 0
+  end
+  # 投入金額の総計を取得できる。
+  #タスク２ 自販機内の投入した金額の合計値をユーザにわかるように出力する
+  #安達さん
+  def current_slot_money
+    # 自動販売機に入っているお金を表示する
+    @slot_money
+  end
+  # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
+  # 投入は複数回できる。
+  #タスク1(完了) (money)に値(お金)を渡す処理を実装する
+  def slot_money(money)
+    # 想定外のもの（１円玉や５円玉。千円札以外のお札、そもそもお金じゃないもの（数字以外のもの）など）
+    # が投入された場合は、投入金額に加算せず、それをそのまま釣り銭としてユーザに出力する。
+    return false unless MONEY.include?(money)
+    # 自動販売機にお金を入れる
+    @slot_money += money
+  end
+  # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
+  # 完了
+  def return_money
+    # 返すお金の金額を表示する
+    puts @slot_money
+    # 自動販売機に入っているお金を0円に戻す
+    @slot_money = 0
+  end
+  #ステップ２ジュースの管理
+  #値段と名前の属性からなるジュースを１種類格納できる。初期状態で、コーラ（値段:120円、名前“コーラ“）を5本格納している。
+  #格納されているジュースの情報（値段と名前と在庫）を取得できる。
+  #注意：責務を持ちすぎていませんか？責任を持ちすぎていたら分割しましょう
+  #タスク３ 佐々木さん
+  def juice_initialize
+    #値段と名前の属性からなるジュースを１種類格納できる。初期状態で、コーラ（値段:120円、名前“コーラ“）を5本格納している。
+  end
+  #タスク４ 佐々木さん
+  def juice_status
+    #格納されているジュースの情報（値段と名前と在庫）を取得できる。
+  end
+  #ステップ３
+  #投入金額、在庫の点で、コーラが購入できるかどうかを取得できる。
+  #ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、ジュースの在庫を減らし、売り上げ金額を増やす。
+  #投入金額が足りない場合もしくは在庫がない場合、購入操作を行っても何もしない。
+  #現在の売上金額を取得できる。
+  #払い戻し操作では現在の投入金額からジュース購入金額を引いた釣り銭を出力する。
+  #注意：責務が集中していませんか？責務が多すぎると思ったら分けてみましょう
+  #タスク５ 宮澤
+  def juice_check
+    #投入金額、在庫の点で、コーラが購入できるかどうかを取得できる。
+  end
+  #タスク６ 宮澤
+  def juice_buy
+    #ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、ジュースの在庫を減らし、売り上げ金額を増やす。
+    #条件分岐
+    #投入金額が足りない場合もしくは在庫がない場合、購入操作を行っても何もしない。
+  end
+  #タスク７ 有田さん
+  def sales
+    #現在の売上金額を取得できる。
+  end
+  #タスク８ 有田さん
+  def money_change
+    #払い戻し操作では現在の投入金額からジュース購入金額を引いた釣り銭を出力する。
   end
 end
-
-VendingMachine.start
-
-#商品とお釣りが返ってくる
-#終了
-
-
-#自販機の中身の変化
-#売上金が増える
-#売れたジュースの在庫が減る
-
-
-
-
-
-
-#実験場
-
-
-
-#インスタンス変数はクラス間を行き来できるのか？
-
-
-
-
-#ユーザがみる出力
-#1.お金を入れる
-#2.この中から選んでください（在庫がないのは表示しない）
-#3.投入金額の合計値が商品金額以上かつ在庫がある商品は買うことができる
-#4.買ったあと 投入金額 - 商品の値段 値をユーザに返却する
-#5.自販機自体の売上に売れた商品の金額を合計していく
-#6.在庫から売れた商品の数を１減らす
-#  在庫が0になったらリストから除外する
-#変数
-#MONEY = [10, 50, 100, 500, 1000].freeze
-#入れられるお金の種類
-#@slot_money
-#ユーザが投入した金額の合計
-#slot_money(money)のmoneyの値がユーザが投入した金額
-#slot_money(money)←money(引数)が投入する金額
-#リスト表示のメソッド
