@@ -64,10 +64,15 @@ class VendingMachine
   end
   #タスク７ 有田さん
   def sales
+    sales = 0
+    @sales = sales += @drink[:price]
     #現在の売上金額を取得できる。
   end
   #タスク８ 有田さん
   def money_change
+  @money_change = @slot_money - @drink[:price]
+  puts ("お釣りは#{@money_change}円です。")
+  @slot_money = 0
     #払い戻し操作では現在の投入金額からジュース購入金額を引いた釣り銭を出力する。
   end
 end
