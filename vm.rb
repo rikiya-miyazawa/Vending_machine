@@ -63,9 +63,8 @@ class VendingMachine
     #投入金額が足りない場合もしくは在庫がない場合、購入操作を行っても何もしない。
   end
   #タスク７ 有田さん
-  def sales
-    sales = 0
-    @sales = sales += @drink[:price]
+  def sales_check
+    puts ("現在の売上は#{@sales}円です。")  
     #現在の売上金額を取得できる。
   end
   #タスク８ 有田さん
