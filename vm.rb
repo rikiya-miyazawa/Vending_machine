@@ -7,6 +7,7 @@ class VendingMachine
   def initialize
     # 最初の自動販売機に入っている金額は0円
     @slot_money = 0
+    @sales = 0
   end
   # 投入金額の総計を取得できる。
   #タスク２ 自販機内の投入した金額の合計値をユーザにわかるように出力する
@@ -80,11 +81,15 @@ class VendingMachine
       # => nil
     end
   #タスク７ 有田さん
-  def sales
+  def sales_check
+    puts ("現在の売上は#{@sales}円です。")  
     #現在の売上金額を取得できる。
   end
   #タスク８ 有田さん
   def money_change
+  @money_change = @slot_money - @drink[:price]
+  puts ("お釣りは#{@money_change}円です。")
+  @slot_money = 0
     #払い戻し操作では現在の投入金額からジュース購入金額を引いた釣り銭を出力する。
   end
 end
