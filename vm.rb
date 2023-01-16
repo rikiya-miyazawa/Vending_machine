@@ -7,6 +7,7 @@ class VendingMachine
   def initialize
     # 最初の自動販売機に入っている金額は0円
     @slot_money = 0
+    @sales = 0
   end
   # 投入金額の総計を取得できる。
   #タスク２ 自販機内の投入した金額の合計値をユーザにわかるように出力する
